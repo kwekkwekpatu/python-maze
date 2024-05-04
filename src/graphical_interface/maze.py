@@ -47,5 +47,6 @@ class Maze:
         return new_cell
     
     def _animate(self) -> None:
-        self._win.redraw()
-        time.sleep(0.05)
+        if self._win:
+            self._win.redraw()
+            time.sleep(0.05)

@@ -33,23 +33,28 @@ class Cell:
         fill_color = "black"
         if self.has_left_wall:
             left_line = line.Line(point_a=point_lt, point_b=point_lb)
-            self._win.draw_line(line=left_line, fill_color=fill_color)
+            if self._win:
+                self._win.draw_line(line=left_line, fill_color=fill_color)
         if self.has_right_wall:
             right_line = line.Line(point_a=point_rt, point_b=point_rb)
-            self._win.draw_line(line=right_line, fill_color=fill_color)
+            if self._win:
+                self._win.draw_line(line=right_line, fill_color=fill_color)
         if self.has_top_wall:
             top_line = line.Line(point_a=point_lt, point_b=point_rt)
-            self._win.draw_line(line=top_line, fill_color=fill_color)
+            if self._win:
+                self._win.draw_line(line=top_line, fill_color=fill_color)
         if self.has_bottom_wall:
             bottom_line = line.Line(point_a=point_lb, point_b=point_rb)
-            self._win.draw_line(line=bottom_line, fill_color=fill_color)
+            if self._win:
+                self._win.draw_line(line=bottom_line, fill_color=fill_color)
 
     def draw_move(self, to_cell: Self, undo=False) -> None:
         line_color = "red"
         if undo:
             line_color = "gray"
         center_line = line.Line(self.get_center(), to_cell.get_center())
-        self._win.draw_line(line=center_line, fill_color=line_color)
+        if self._win:
+            self._win.draw_line(line=center_line, fill_color=line_color)
         
     def get_center(self) -> point.Point:
         x = (self._x1 + self._x2) / 2
