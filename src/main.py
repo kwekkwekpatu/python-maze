@@ -1,4 +1,4 @@
-from user_interface import window, point, line, cell
+from graphical_interface import window, point, line, cell
 
 def main():
     win = window.Window(800, 600)
