@@ -41,7 +41,7 @@ class Cell:
         center_line = line.Line(self.get_center(), to_cell.get_center())
         self._win.draw_line(line=center_line, fill_color=line_color)
         
-    def get_center(self) -> point:
+    def get_center(self) -> point.Point:
         x = (self._x1 + self._x2) / 2
         y = (self._y1 + self._y2) / 2
         return point.Point(x=x,y=y)
