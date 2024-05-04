@@ -2,11 +2,13 @@ from tkinter import Canvas
 from . import point
 
 class Line:
-    def __init__(self, point_a, point_b) -> None:
+    def __init__(self, 
+                 point_a: point.Point, 
+                 point_b: point.Point) -> None:
         self.point_a = point_a
         self.point_b = point_b
 
-    def draw(self, canvas, fill_color) -> None:
+    def draw(self, canvas: Canvas, fill_color: str) -> None:
         x1, y1 = self.point_a.x, self.point_a.y
         x2, y2 = self.point_b.x, self.point_b.y
 

@@ -1,8 +1,18 @@
 from tkinter import Canvas
 from . import window, line, point
+from typing import Self
 
 class Cell:
-    def __init__(self, x1, x2, y1, y2, win, has_left_wall=True, has_right_wall=True, has_top_wall=True, has_bottom_wall=True) -> None:
+    def __init__(self, 
+                 x1: float, 
+                 x2: float, 
+                 y1: float, 
+                 y2: float, 
+                 win: window.Window = None, 
+                 has_left_wall=True, 
+                 has_right_wall=True, 
+                 has_top_wall=True, 
+                 has_bottom_wall=True) -> None:
         self._x1 = x1
         self._x2 = x2
         self._y1 = y1
@@ -34,7 +44,7 @@ class Cell:
             bottom_line = line.Line(point_a=point_lb, point_b=point_rb)
             self._win.draw_line(line=bottom_line, fill_color=fill_color)
 
-    def draw_move(self, to_cell, undo=False) -> None:
+    def draw_move(self, to_cell: Self, undo=False) -> None:
         line_color = "red"
         if undo:
             line_color = "gray"

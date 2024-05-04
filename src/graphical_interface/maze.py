@@ -3,13 +3,13 @@ import time
 
 class Maze:
     def __init__(self,
-                 x1,
-                 y1,
-                 num_rows,
-                 num_cols,
-                 cell_size_x,
-                 cell_size_y,
-                 win,
+                 x1: float,
+                 y1: float,
+                 num_rows: int,
+                 num_cols: int,
+                 cell_size_x: float,
+                 cell_size_y: float,
+                 win: window.Window = None,
                  ) -> None:
         self._cells = []
         self._x1 = x1
@@ -24,7 +24,7 @@ class Maze:
 
         self._create_cells()
 
-    def _create_cells(self):
+    def _create_cells(self) -> None:
         for column in range(self._num_cols):
             temp_list = []
             for row in range(self._num_rows):          
@@ -32,7 +32,7 @@ class Maze:
 
             self._cells.append(temp_list)
 
-    def _draw_cell(self, i, j) -> cell.Cell:
+    def _draw_cell(self, i: int, j: int) -> cell.Cell:
         temp_x1 = self._x1 + i * self._cell_size_x
         temp_x2 = self._x1 + (i + 1) * self._cell_size_x
         temp_y1 = self._y1 + j * self._cell_size_y
