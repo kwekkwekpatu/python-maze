@@ -31,6 +31,7 @@ class Maze:
         self._create_cells()
         self._break_entrance_and_exit()
         self._break_walls_r(0,0)
+        self._reset_cells_visited()
 
     def _create_cells(self) -> None:
         for column in range(self._num_cols):
@@ -111,3 +112,45 @@ class Maze:
         if j < self._num_rows-1 and not self._cells[i][j + 1].visited:
             to_visit.append([i,j+1])
         return to_visit
+    
+    def _reset_cells_visited(self) -> None:
+        for column in self._cells:
+            for cell in column:
+                cell.visited = False
+
+    def _get_adjacent_without_walls(self, i:int, j:int) -> list:
+        to_visit = []
+        current_cell = self._cells[i][j]
+        # left
+        if i > 0 and not self._cells[i - 1][j].visited and not current_cell.has_left_wall:
+            to_visit.append((i-1,j))
+        # right
+        if i < self._num_cols-1 and not self._cells[i + 1][j].visited and not current_cell.has_right_wall:
+            to_visit.append((i+1,j))
+        # up
+        if j > 0 and not self._cells[i][j - 1].visited and not current_cell.has_top_wall:
+            to_visit.append((i,j-1))
+        # down
+        if j < self._num_rows-1 and not self._cells[i][j + 1].visited and not current_cell.has_bottom_wall:
+            to_visit.append([i,j+1])
+        return to_visit
+
+    def solve(self) -> bool:
+        return self._solve_r()
+        
+    def _solve_r(self, i:int = 0, j:int = 0) -> bool:
+        self._animate()
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+        if i == self._num_cols - 1 and j == self._num_rows - 1:
+            return True
+        to_visit = self._get_adjacent_without_walls(i, j)
+        for target in to_visit:
+            next_cell = self._cells[target[0]][target[1]]
+            current_cell.draw_move(to_cell=next_cell)
+            is_right_way = self._solve_r(target[0], target[1])
+            if is_right_way:
+                return True
+            current_cell.draw_move(to_cell=next_cell, undo=True)
+        return False
+

@@ -31,7 +31,7 @@ def main():
     win = window.Window(screen_x, screen_y)
 
     maze1 = maze.Maze(margin, margin, num_rows, num_cols, cell_size_x, cell_size_y, win, 10)
-
+    maze1.solve()
     win.wait_for_close()
 
 
