@@ -14,6 +14,7 @@ class Cell:
         self._y1 = None
         self._y2 = None
         self._win = win
+        self.visited = False
         
         self.has_left_wall = has_left_wall
         self.has_right_wall = has_right_wall
@@ -71,3 +72,4 @@ class Cell:
         x = (self._x1 + self._x2) / 2
         y = (self._y1 + self._y2) / 2
         return point.Point(x=x,y=y)
+    

@@ -1,5 +1,6 @@
 from . import cell, window
 import time
+import random
 
 class Maze:
     def __init__(self,
@@ -10,6 +11,7 @@ class Maze:
                  cell_size_x: float,
                  cell_size_y: float,
                  win: window.Window = None,
+                 seed: any = None,
                  ) -> None:
         self._cells = []
         self._x1 = x1
@@ -22,8 +24,13 @@ class Maze:
         self._cell_size_y = cell_size_y
         self._win = win
 
+        self._random = 0
+        if seed:
+            self.random = random.seed(seed)
+
         self._create_cells()
         self._break_entrance_and_exit()
+        self._break_walls_r(0,0)
 
     def _create_cells(self) -> None:
         for column in range(self._num_cols):
@@ -58,3 +65,49 @@ class Maze:
         self._draw_cell(0, 0)
         self._cells[self._num_cols - 1][self._num_rows - 1].has_bottom_wall = False
         self._draw_cell(self._num_cols - 1, self._num_rows - 1)
+
+    def _break_walls_r(self, i: int, j:int) -> None:
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+        while True:
+            new_list = self._get_adjacent_to_visit(i,j)
+            if len(new_list) == 0:
+                self._draw_cell(i,j)
+                return
+            # choose a random direction
+            direction_index = random.randrange(len(new_list))
+            random_direction = new_list[direction_index]
+            # break the wall
+            next_x = random_direction[0]
+            next_y = random_direction[1]
+            next_cell = self._cells[next_x][next_y]
+            if next_x < i:
+                current_cell.has_left_wall = False
+                next_cell.has_right_wall = False
+            elif next_x > i:
+                current_cell.has_right_wall = False
+                next_cell.has_left_wall = False
+            elif next_y < j:
+                current_cell.has_top_wall = False
+                next_cell.has_bottom_wall = False
+            elif next_y > j:
+                current_cell.has_bottom_wall = False
+                next_cell.has_top_wall = False
+            # move to direction
+            self._break_walls_r(next_x,next_y)
+
+    def _get_adjacent_to_visit(self, i:int, j:int) -> list:
+        to_visit = []
+        # left
+        if i > 0 and not self._cells[i - 1][j].visited:
+            to_visit.append((i-1,j))
+        # right
+        if i < self._num_cols-1 and not self._cells[i + 1][j].visited:
+            to_visit.append((i+1,j))
+        # up
+        if j > 0 and not self._cells[i][j - 1].visited:
+            to_visit.append((i,j-1))
+        # down
+        if j < self._num_rows-1 and not self._cells[i][j + 1].visited:
+            to_visit.append([i,j+1])
+        return to_visit
